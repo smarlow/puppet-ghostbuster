@@ -3,6 +3,7 @@ require 'puppetdb'
 class PuppetGhostbuster
   class PuppetDB
     def self.client
+      version = ENV['PUPPETDB_API_VERSION'] || 4
       @@client ||= ::PuppetDB::Client.new({
         :server => "#{ENV['PUPPETDB_URL'] || 'http://puppetdb:8080'}/pdb/query",
         :pem    => {
@@ -10,7 +11,7 @@ class PuppetGhostbuster
           'cert'    => ENV['PUPPETDB_CERT_FILE'],
           'ca_file' => ENV['PUPPETDB_CACERT_FILE'],
         }
-      }, 4)
+      }, version)
     end
 
     def client
